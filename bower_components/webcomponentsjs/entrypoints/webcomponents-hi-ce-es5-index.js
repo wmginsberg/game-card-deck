@@ -10,10 +10,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 'use strict';
 
 /*
- * Polyfills loaded: Custom Elements, Shady DOM/Shady CSS
- * Used in: Safari 9, Firefox, Edge
+ * Polyfills loaded: HTML Imports + Custom Elements ES5 shim
+ * Used in: Safari Tech Preview, Chrome
  */
 
-import '../bower_components/shadydom/src/shadydom.js'
-import '../bower_components/custom-elements/src/custom-elements.js'
-import '../bower_components/shadycss/entrypoints/scoping-shim.js'
+import '../bower_components/custom-elements/src/native-shim.js'
+import '../bower_components/html-imports/src/html-imports.js'
+
+import '../src/post-polyfill.js'
+import '../src/unresolved.js'

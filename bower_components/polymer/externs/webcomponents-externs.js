@@ -3,6 +3,16 @@
  * @externs
  */
 
+/**
+ * @constructor
+ * @extends {HTMLElement}
+ */
+function CustomStyle(){}
+/**
+ * @param {!HTMLStyleElement} style
+ */
+CustomStyle.prototype.processHook = function(style){};
+
 let HTMLImports = {
   /**
    * @param {function()} callback

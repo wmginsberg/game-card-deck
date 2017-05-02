@@ -162,9 +162,13 @@ const babelOptions = {
   shouldPrintComment: singleLicenseComment()
 };
 
-gulp.task('debugify-ce-es5-adapter', () => {
-  return debugify('custom-elements-es5-adapter', '', {plugins: [babel(babelOptions)]});
+gulp.task('debugify-ce-es5', () => {
+  return debugify('webcomponents-ce-es5', '', {plugins: [babel(babelOptions)]});
 });
+
+gulp.task('debugify-hi-ce-es5', () => {
+  return debugify('webcomponents-hi-ce-es5', '', {plugins: [babel(babelOptions)]});
+})
 
 gulp.task('refresh-bower', () => {
   return del('bower_components').then(() => {
@@ -180,7 +184,7 @@ gulp.task('default', (cb) => {
 });
 
 gulp.task('clean-builds', () => {
-  return del(['custom-elements-es5-adapter.js{,.map}', 'webcomponents*.js{,.map}', '!webcomponents-loader.js']);
+  return del(['webcomponents*.js{,.map}', '!webcomponents-{es5-,}loader.js']);
 });
 
 gulp.task('debug', (cb) => {
@@ -190,7 +194,8 @@ gulp.task('debug', (cb) => {
     'debugify-hi-sd-ce',
     'debugify-hi-sd-ce-pf',
     'debugify-sd-ce',
-    'debugify-ce-es5-adapter'
+    'debugify-ce-es5',
+    'debugify-hi-ce-es5'
   ];
   runseq('clean-builds', tasks, cb);
 });
@@ -202,7 +207,8 @@ gulp.task('closure', (cb) => {
     'closurify-hi-sd-ce',
     'closurify-hi-sd-ce-pf',
     'closurify-sd-ce',
-    'debugify-ce-es5-adapter'
+    'debugify-ce-es5',
+    'debugify-hi-ce-es5'
   ];
   runseq('clean-builds', ...tasks, cb);
 });
