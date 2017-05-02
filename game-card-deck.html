@@ -1,0 +1,104 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../game-card/game-card.html">
+
+<!--
+`game-card-deck`
+A deck of 3 cards that deals a new one on cli
+
+@demo demo/index.html
+-->
+
+<dom-module id="game-card-deck">
+  <template>
+    <style>
+      :host {
+        display: block;
+        margin: 0;
+        padding:0;
+      }
+      game-card {
+        float: left;
+        margin: 0px;
+      }
+      #a {
+        z-index: 0;
+      }
+      #b {
+        z-index: 1;
+        margin-left: -170px;
+      }
+      #c {
+        z-index: 2;
+        margin-left: -170px;
+      }
+      #clearBox {
+        clear: both;
+      }
+      button {
+        border:none;
+        background-color: rgba(0,0,0,0);
+        padding:0;
+      }
+      button:focus { 
+        outline:0;
+      }
+    </style>
+
+      <button id="myButton" on-click="handleClick">
+        <game-card id="a" symbol="♠" rank="J" unrevealed></game-card>
+        <game-card id="b" symbol="♠" rank="Q" unrevealed></game-card>
+        <game-card id="c" symbol="♠" rank="K" unrevealed></game-card>
+      </button>
+      <div id="clearBox"> </div>
+
+
+  </template>
+
+  <script>
+    /** @polymerElement */
+    class GameCardDeck extends Polymer.Element {
+      static get is() { return 'game-card-deck'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'game-card-deck'
+          }
+        };
+      }
+      ready() {
+        super.ready();
+        this.$.myButton.addEventListener('click', e => {this.handleClick(e)});
+      }
+      handleClick() {
+        var topCard = document.body.getElementsByTagName('game-card-deck')[0].$.c;
+        //wait(100);
+        // Get random suit
+        let suits = [{'spades':{'symbol':'♠','color':'black'}},{'hearts':{'symbol':'♥','color':'red'}},
+                     {'diamonds':{'symbol':'♦','color':'red'}},{'clubs':{'symbol':'♣','color':'black'}}];
+        var suitInt = this.getRandomInt(0,4);
+        var suit = Object.keys(suits[suitInt]);
+
+        // Get random value
+        let values = ['A','2','3','4','5','6','7','8','9','J','Q','K']
+        var val = values[this.getRandomInt(0,12)];
+
+        // Assign rank and value
+        var cardvals = [val,suits[suitInt][suit].symbol]
+        topCard.symbol = cardvals[1];
+        topCard.rank = cardvals[0];
+
+        // If the top card is unrevealed, animate the flip
+        if (topCard.unrevealed) {
+          topCard.flip();
+        }
+      }
+      getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
+      }
+    }
+    window.customElements.define(GameCardDeck.is, GameCardDeck);
+  </script>
+</dom-module>
